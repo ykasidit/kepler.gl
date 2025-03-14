@@ -9,7 +9,8 @@ import process from 'node:process';
 import fs from 'node:fs';
 import {spawn} from 'node:child_process';
 import {join} from 'node:path';
-import KeplerPackage from '../../package.json' assert {type: 'json'};
+import KeplerPackage from '../../package.json' with  {type: 'json'};
+import fixReactVirtualized from 'esbuild-plugin-react-virtualized'
 
 const args = process.argv;
 
@@ -192,7 +193,7 @@ function openURL(url) {
   };
   const command = cmd[process.platform];
   if (command) {
-    spawn(command[0], [...command.slice(1), url]);
+    // spawn(command[0], [...command.slice(1), url]);
   }
 }
 
@@ -284,7 +285,10 @@ function openURL(url) {
           : {alias: getThirdPartyLibraryAliases(false)}),
         banner: {
           js: `new EventSource('/esbuild').addEventListener('change', () => location.reload());`
-        }
+        },
+        plugins:[
+          fixReactVirtualized,
+        ]
       })
       .then(async ctx => {
         checkEnvVariables();

@@ -9248,6 +9248,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"esbuild-plugin-react-virtualized@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "esbuild-plugin-react-virtualized@npm:1.0.4"
+  peerDependencies:
+    esbuild: "*"
+  checksum: 10c0/0abdbfc9ddb93f50ee887c24e67697af074c368a6c6c4d8ad6508ea5486379cfe5d1c8cada3ed8e7dad932c84bc5fc09c398adde75ec25cdd76df6d1b2f866d7
+  languageName: node
+  linkType: hard
+
 "esbuild-plugin-replace@npm:^1.4.0":
   version: 1.4.0
   resolution: "esbuild-plugin-replace@npm:1.4.0"
@@ -13277,24 +13286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-virtualized@npm:^9.21.0":
-  version: 9.22.5
-  resolution: "react-virtualized@npm:9.22.5"
-  dependencies:
-    "@babel/runtime": "npm:^7.7.2"
-    clsx: "npm:^1.0.4"
-    dom-helpers: "npm:^5.1.3"
-    loose-envify: "npm:^1.4.0"
-    prop-types: "npm:^15.7.2"
-    react-lifecycles-compat: "npm:^3.0.4"
-  peerDependencies:
-    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
-    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
-  checksum: 10c0/b0444b472f317dce61119c07426c5e9ebfe5125d049996678da922717715a1aa83df755aa36877f4b1718aa2e181d22f15ebb807ee356418c56f922f865628c1
-  languageName: node
-  linkType: hard
-
-"react-virtualized@npm:^9.22.5":
+"react-virtualized@npm:^9.22.5, react-virtualized@npm:^9.22.6":
   version: 9.22.6
   resolution: "react-virtualized@npm:9.22.6"
   dependencies:
@@ -13700,6 +13692,7 @@ __metadata:
     d3-format: "npm:^2.0.0"
     dropbox: "npm:^4.0.12"
     esbuild: "npm:^0.25.0"
+    esbuild-plugin-react-virtualized: "npm:^1.0.4"
     esbuild-plugin-replace: "npm:^1.4.0"
     global: "npm:^4.3.0"
     keymirror: "npm:^0.1.1"
@@ -13712,7 +13705,7 @@ __metadata:
     react-resizable-panels: "npm:^2.1.7"
     react-router: "npm:3.2.5"
     react-router-redux: "npm:^4.0.8"
-    react-virtualized: "npm:^9.21.0"
+    react-virtualized: "npm:^9.22.6"
     redux: "npm:^4.2.1"
     redux-actions: "npm:^2.2.1"
     redux-logger: "npm:^3.0.6"
