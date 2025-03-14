@@ -4,7 +4,7 @@
 import React, {HTMLAttributes, PropsWithChildren} from 'react';
 import {MapStyle} from '@kepler.gl/reducers';
 import {Layer, LayerClassesType} from '@kepler.gl/layers';
-import {Filter, InteractionConfig, UiState} from '@kepler.gl/types';
+import {Filter, InteractionConfig, MapState, UiState} from '@kepler.gl/types';
 
 import {
   MapStyleActions,
@@ -13,6 +13,7 @@ import {
   UIStateActions
 } from '@kepler.gl/actions';
 import {Datasets} from '@kepler.gl/table';
+import { VisState } from '@kepler.gl/schemas';
 
 export type BaseComponentProps = PropsWithChildren<HTMLAttributes<unknown>>;
 
@@ -38,7 +39,9 @@ export type SidePanelProps = {
   width: number;
   datasets: Datasets;
   uiStateActions: typeof UIStateActions;
+  visState: VisState;
   visStateActions: typeof VisStateActions;
+  mapState: MapState;
   mapStateActions: typeof MapStateActions;
   mapStyleActions: typeof MapStyleActions;
   uiState: UiState;

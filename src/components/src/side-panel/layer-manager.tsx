@@ -53,6 +53,7 @@ type LayerManagerProps = {
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   panelListView: PanelListView;
   panelMetadata: SidePanelItem;
+  saveTheme: () => void;
 } & WrappedComponentProps;
 
 export const LayerBlendingSelector = React.memo(
@@ -178,7 +179,8 @@ function LayerManagerFactory(
         visStateActions,
         mapStateActions,
         panelListView,
-        panelMetadata
+        panelMetadata,
+        saveTheme,
       } = this.props;
 
       const isSortByDatasetMode = panelListView === PANEL_VIEW_TOGGLES.byDataset;
@@ -199,6 +201,7 @@ function LayerManagerFactory(
             showDeleteDataset
             showDatasetList={!isSortByDatasetMode}
             showAddDataModal={showAddDataModal}
+            saveTheme={saveTheme}
           />
           <SidePanelDivider />
           <SidePanelSection>

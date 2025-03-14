@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright contributors to the kepler.gl project
 
-import React, {useCallback, useMemo} from 'react';
+import React, { useCallback, useMemo } from 'react';
 
 import {
   EXPORT_DATA_ID,
@@ -15,7 +15,7 @@ import {
   ADD_MAP_STYLE_ID
 } from '@kepler.gl/constants';
 
-import {CursorClick, Layers, FilterFunnel, Settings} from './common/icons';
+import { CursorClick, Layers, FilterFunnel, Settings } from './common/icons';
 
 import SidebarFactory from './side-panel/side-bar';
 import PanelHeaderFactory from './side-panel/panel-header';
@@ -27,7 +27,8 @@ import MapManagerFactory from './side-panel/map-manager';
 import CustomPanelsFactory from './side-panel/custom-panel';
 
 import styled from 'styled-components';
-import {SidePanelProps, SidePanelItem} from './types';
+import { SidePanelProps, SidePanelItem } from './types';
+import saveAs from 'file-saver';
 
 export const StyledSidePanelContent = styled.div`
   ${props => props.theme.sidePanelScrollBar};
@@ -94,7 +95,7 @@ export default function SidePanelFactory(
   const getCustomPanelProps = CustomPanels.getProps || (() => ({}));
 
   // eslint-disable-next-line max-statements
-  const SidePanel: React.FC<SidePanelProps> & {defaultPanels: SidePanelProps['panels']} = (
+  const SidePanel: React.FC<SidePanelProps> & { defaultPanels: SidePanelProps['panels'] } = (
     props: SidePanelProps
   ) => {
     const {
@@ -116,18 +117,20 @@ export default function SidePanelFactory(
       mapStyle,
       mapStyleActions,
       onSaveMap,
+      mapState,
       uiState,
       uiStateActions,
+      visState,
       visStateActions,
       version,
       width
     } = props;
-    const {openDeleteModal, toggleModal, toggleSidePanel} = uiStateActions;
-    const {activeSidePanel} = uiState;
-    const {setMapInfo, showDatasetTable, updateTableColor} = visStateActions;
-    const {hasShare, hasStorage} = availableProviders;
+    const { openDeleteModal, toggleModal, toggleSidePanel } = uiStateActions;
+    const { activeSidePanel } = uiState;
+    const { setMapInfo, showDatasetTable, updateTableColor } = visStateActions;
+    const { hasShare, hasStorage } = availableProviders;
 
-    const {title} = mapInfo;
+    const { title } = mapInfo;
 
     const isOpen = Boolean(activeSidePanel);
 
@@ -159,9 +162,19 @@ export default function SidePanelFactory(
     const onShowAddDataModal = useCallback(() => toggleModal(ADD_DATA_ID), [toggleModal]);
     const onShowAddMapStyleModal = useCallback(() => toggleModal(ADD_MAP_STYLE_ID), [toggleModal]);
     const onRemoveDataset = useCallback(dataId => openDeleteModal(dataId), [openDeleteModal]);
+    const onSaveTheme = useCallback(() => {
+      const keplerGlConfig = visState.schema.getConfigToSave({
+        mapStyle,
+        visState,
+        mapState,
+        uiState
+      });
+      var blob = new Blob([JSON.stringify(keplerGlConfig)], { type: "application/json;charset=utf-8" });
+      saveAs(blob, "theme.json")
+    }, [mapStyle, visState, mapState, uiState])
 
     const currentPanel = useMemo(
-      () => panels.find(({id}) => id === activeSidePanel) || null,
+      () => panels.find(({ id }) => id === activeSidePanel) || null,
       [activeSidePanel, panels]
     );
 
@@ -220,6 +233,7 @@ export default function SidePanelFactory(
                 showDatasetTable={onShowDatasetTable}
                 updateTableColor={onUpdateTableColor}
                 showAddDataModal={onShowAddDataModal}
+                saveTheme={onSaveTheme}
                 showAddMapStyleModal={onShowAddMapStyleModal}
                 uiStateActions={uiStateActions}
                 visStateActions={visStateActions}
@@ -228,8 +242,8 @@ export default function SidePanelFactory(
                   currentPanel?.id === 'layer'
                     ? uiState.layerPanelListView
                     : currentPanel?.id === 'filter'
-                    ? uiState.filterPanelListView
-                    : null
+                      ? uiState.filterPanelListView
+                      : null
                 }
               />
             ) : null}

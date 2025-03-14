@@ -172,7 +172,8 @@ export default {
     addData: 'Add Data',
     addLayer: 'Add Layer',
     layerBlending: 'Layer Blending',
-    overlayBlending: 'Overlay Blending'
+    overlayBlending: 'Overlay Blending',
+    saveTheme: 'Save',
   },
   mapManager: {
     mapStyle: 'Map style',

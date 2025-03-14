@@ -3,13 +3,13 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import {FormattedMessage} from '@kepler.gl/localization';
-import {Add} from '../../common/icons';
-import {Button} from '../../common/styled-components';
+import { FormattedMessage } from '@kepler.gl/localization';
+import { Add, Save } from '../../common/icons';
+import { Button } from '../../common/styled-components';
 
 import SourceDataCatalogFactory from '../common/source-data-catalog';
-import {UIStateActions, VisStateActions, ActionHandler} from '@kepler.gl/actions';
-import {Datasets} from '@kepler.gl/table';
+import { UIStateActions, VisStateActions, ActionHandler } from '@kepler.gl/actions';
+import { Datasets } from '@kepler.gl/table';
 
 type AddDataButtonProps = {
   onClick: () => void;
@@ -24,9 +24,10 @@ type DatasetSectionProps = {
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   removeDataset: ActionHandler<typeof UIStateActions.openDeleteModal>;
   showAddDataModal: () => void;
+  saveTheme: () => void;
 };
 
-const StyledDatasetTitle = styled.div<{showDatasetList?: boolean}>`
+const StyledDatasetTitle = styled.div<{ showDatasetList?: boolean }>`
   line-height: ${props => props.theme.sidePanelTitleLineHeight};
   font-weight: 400;
   letter-spacing: 1.25px;
@@ -43,7 +44,7 @@ const StyledDatasetSection = styled.div`
 `;
 
 export function AddDataButtonFactory() {
-  const AddDataButton: React.FC<AddDataButtonProps> = React.memo(({onClick, isInactive}) => (
+  const AddDataButton: React.FC<AddDataButtonProps> = React.memo(({ onClick, isInactive }) => (
     <Button
       className="add-data-button"
       onClick={onClick}
@@ -59,11 +60,30 @@ export function AddDataButtonFactory() {
   return AddDataButton;
 }
 
-DatasetSectionFactory.deps = [SourceDataCatalogFactory, AddDataButtonFactory];
+export function SaveThemeButtonFactory() {
+  const SaveThemeButton: React.FC<AddDataButtonProps> = React.memo(({ onClick, isInactive }) => (
+    <Button
+      className="save-theme-button"
+      onClick={onClick}
+      inactive={!isInactive}
+      width="105px"
+      secondary
+    >
+      <Save height="12px" />
+      <FormattedMessage id={'layerManager.saveTheme'} />
+    </Button>
+  ));
+  SaveThemeButton.displayName = 'SaveThemeButton';
+  return SaveThemeButton;
+}
+
+DatasetSectionFactory.deps = [SourceDataCatalogFactory, AddDataButtonFactory, SetThemeButtonFactory, SaveThemeButtonFactory];
 
 function DatasetSectionFactory(
   SourceDataCatalog: ReturnType<typeof SourceDataCatalogFactory>,
-  AddDataButton: ReturnType<typeof AddDataButtonFactory>
+  AddDataButton: ReturnType<typeof AddDataButtonFactory>,
+  SetThemeButton: ReturnType<typeof SetThemeButtonFactory>,
+  SaveThemeButton: ReturnType<typeof SaveThemeButtonFactory>
 ) {
   const DatasetSection: React.FC<DatasetSectionProps> = props => {
     const {
@@ -73,7 +93,8 @@ function DatasetSectionFactory(
       showDeleteDataset,
       removeDataset,
       showDatasetList,
-      showAddDataModal
+      showAddDataModal,
+      saveTheme
     } = props;
     const datasetCount = Object.keys(datasets).length;
 
@@ -82,6 +103,10 @@ function DatasetSectionFactory(
         <StyledDatasetTitle showDatasetList={showDatasetList}>
           <span>Datasets{datasetCount ? `(${datasetCount})` : ''}</span>
           <AddDataButton onClick={showAddDataModal} isInactive={!datasetCount} />
+        </StyledDatasetTitle>
+        <StyledDatasetTitle showDatasetList={showDatasetList}>
+          <span>Theme</span>
+          <SaveThemeButton onClick={saveTheme} isInactive={!datasetCount} />
         </StyledDatasetTitle>
         {showDatasetList && (
           <SourceDataCatalog

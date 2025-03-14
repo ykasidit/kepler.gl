@@ -206,9 +206,11 @@ export const sidePanelSelector = (props: KeplerGLProps, availableProviders, filt
   onSaveMap: props.onSaveMap,
   uiState: props.uiState,
   mapStyleActions: props.mapStyleActions,
+  visState:props.visState,
   visStateActions: props.visStateActions,
   uiStateActions: props.uiStateActions,
   mapStateActions: props.mapStateActions,
+  mapState:props.mapState,
 
   datasets: filteredDatasets,
   filters: props.visState.filters,

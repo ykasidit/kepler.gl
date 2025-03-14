@@ -106,7 +106,9 @@
     "@hubble.gl/react": "1.4.0",
     "@kepler.gl/components": "3.1.1",
     "@loaders.gl/polyfills": "^4.3.2",
+    "@types/file-saver": "^2.0.7",
     "@types/mapbox__geo-viewport": "^0.4.1",
+    "file-saver": "^2.0.5",
     "html-webpack-plugin": "^4.3.0",
     "monaco-editor": "^0.52.0",
     "typedoc": "^0.19.2"
