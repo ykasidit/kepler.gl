@@ -234,6 +234,7 @@ function openURL(url) {
     await esbuild
       .build({
         ...config,
+        publicPath: "/maps/",
         minify: true,
         sourcemap: false,
         // Add alias resolution for build
@@ -277,6 +278,7 @@ function openURL(url) {
     await esbuild
       .context({
         ...config,
+        publicPath: "/maps/",
         minify: false,
         sourcemap: true,
         // add alias to resolve libraries so there is only one copy of them

@@ -6,6 +6,7 @@ RUN curl https://get.volta.sh | bash
 COPY . .
 RUN yarn install
 WORKDIR /app/examples/demo-app
+ENV PUBLIC_PATH="/maps/"
 RUN yarn install
 RUN yarn build
 
