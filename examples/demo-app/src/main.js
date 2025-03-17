@@ -18,7 +18,7 @@ const appRoute = buildAppRoutes(App);
 const Root = () => (
   <Provider store={store}>
     <Router history={history}>
-      <Route path="/" component={App}>
+      <Route path="/m" component={App}>
         {appRoute}
       </Route>
     </Router>
