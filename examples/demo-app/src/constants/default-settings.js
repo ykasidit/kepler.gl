@@ -8,6 +8,7 @@ import keyMirror from 'keymirror';
 export const ASSETS_URL = 'https://d1a3f4spazzrp4.cloudfront.net/kepler.gl/';
 export const DATA_URL = 'https://raw.githubusercontent.com/keplergl/kepler.gl-data/master/';
 export const MAP_URI = 'demo/map?mapUrl=';
+
 /*
  * If you want to add more samples, feel free to edit the json file on github kepler.gl data repo
  */
@@ -44,12 +45,12 @@ export const DEFAULT_FEATURE_FLAGS = {
 };
 
 export const CLOUD_PROVIDERS_CONFIGURATION = {
-  MAPBOX_TOKEN: process.env.MapboxAccessToken, // eslint-disable-line
-  DROPBOX_CLIENT_ID: process.env.DropboxClientId, // eslint-disable-line
-  EXPORT_MAPBOX_TOKEN: process.env.MapboxExportToken, // eslint-disable-line
-  CARTO_CLIENT_ID: process.env.CartoClientId, // eslint-disable-line
-  FOURSQUARE_CLIENT_ID: process.env.FoursquareClientId, // eslint-disable-line
-  FOURSQUARE_DOMAIN: process.env.FoursquareDomain, // eslint-disable-line
-  FOURSQUARE_API_URL: process.env.FoursquareAPIURL, // eslint-disable-line
-  FOURSQUARE_USER_MAPS_URL: process.env.FoursquareUserMapsURL // eslint-disable-line
+  MAPBOX_TOKEN: "",
+  DROPBOX_CLIENT_ID: "",
+  EXPORT_MAPBOX_TOKEN: "",
+  CARTO_CLIENT_ID: "",
+  FOURSQUARE_CLIENT_ID: "",
+  FOURSQUARE_DOMAIN: "",
+  FOURSQUARE_API_URL: "",
+  FOURSQUARE_USER_MAPS_URL: "",
 };

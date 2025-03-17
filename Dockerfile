@@ -1,23 +1,14 @@
-FROM node:18.18.2-alpine
-
+FROM node:22-bookworm AS builder
 WORKDIR /app
-
-# Download release
-RUN apk add --no-cache curl bash openssl
-RUN apk add --no-cache g++ make libc-dev libxi-dev mesa-dev glew-dev pkgconfig python3 mesa-utils xvfb mesa-gl git
-RUN apk add --no-cache xdg-utils
+RUN apt-get update ; apt-get install -y build-essential libxi-dev libglu1-mesa-dev libglew-dev pkg-config
+RUN corepack enable
+RUN curl https://get.volta.sh | bash
 COPY . .
-
-RUN yarn set version 4.4.0
 RUN yarn install
-
 WORKDIR /app/examples/demo-app
-
 RUN yarn install
-# Expose port
-EXPOSE 8080
+RUN yarn build
 
-RUN cp ../../.env.template /app/examples/demo-app/.env
-
-# Start the kepler.gl demo app with environment variables from host
-CMD ["yarn", "start:local"]
+FROM nginx:alpine
+COPY --from=builder /app/examples/demo-app/dist/ /usr/share/nginx/html/
+EXPOSE 80

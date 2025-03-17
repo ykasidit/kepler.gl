@@ -2,14 +2,14 @@
 // Copyright contributors to the kepler.gl project
 
 import esbuild from 'esbuild';
-import {replace} from 'esbuild-plugin-replace';
-import {dotenvRun} from '@dotenv-run/esbuild';
+import { replace } from 'esbuild-plugin-replace';
+import { dotenvRun } from '@dotenv-run/esbuild';
 
 import process from 'node:process';
 import fs from 'node:fs';
-import {spawn} from 'node:child_process';
-import {join} from 'node:path';
-import KeplerPackage from '../../package.json' assert {type: 'json'};
+import { spawn } from 'node:child_process';
+import { join } from 'node:path';
+import KeplerPackage from '../../package.json' with {type: 'json'};
 import fixReactVirtualized from 'esbuild-plugin-react-virtualized'
 
 const args = process.argv;
@@ -36,9 +36,9 @@ const getThirdPartyLibraryAliases = useKeplerNodeModules => {
 
   const localSources = useKeplerNodeModules
     ? {
-        // Suppress useless warnings from react-date-picker's dep
-        'tiny-warning': `${SRC_DIR}/utils/src/noop.ts`
-      }
+      // Suppress useless warnings from react-date-picker's dep
+      'tiny-warning': `${SRC_DIR}/utils/src/noop.ts`
+    }
     : {};
 
   return {
@@ -156,8 +156,8 @@ function addAliases(externals, args) {
       resolveAlias[name] = useLocalDeck
         ? `${NODE_MODULES_DIR}/${name}/src`
         : name === 'probe.gl'
-        ? `${EXTERNAL_DECK_SRC}/node_modules/${name}/src`
-        : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/core/src`;
+          ? `${EXTERNAL_DECK_SRC}/node_modules/${name}/src`
+          : `${EXTERNAL_DECK_SRC}/node_modules/@${name}/core/src`;
 
       // if env.deck Load @${name} modules from root node_modules/@${name}
       // if env.deck_src Load @${name} modules from deck.gl/node_modules/@${name} folder parallel to kepler.gl`
@@ -281,12 +281,12 @@ function openURL(url) {
         sourcemap: true,
         // add alias to resolve libraries so there is only one copy of them
         ...(process.env.NODE_ENV === 'local'
-          ? {alias: localAliases}
-          : {alias: getThirdPartyLibraryAliases(false)}),
+          ? { alias: localAliases }
+          : { alias: getThirdPartyLibraryAliases(false) }),
         banner: {
           js: `new EventSource('/esbuild').addEventListener('change', () => location.reload());`
         },
-        plugins:[
+        plugins: [
           fixReactVirtualized,
         ]
       })
@@ -298,7 +298,7 @@ function openURL(url) {
           servedir: 'dist',
           port,
           fallback: 'dist/index.html',
-          onRequest: ({remoteAddress, method, path, status, timeInMS}) => {
+          onRequest: ({ remoteAddress, method, path, status, timeInMS }) => {
             console.info(remoteAddress, status, `"${method} ${path}" [${timeInMS}ms]`);
           }
         });
