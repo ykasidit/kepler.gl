@@ -129,7 +129,8 @@ const COMMON_CONFIG = {
     // Provide default values to suppress warnings
     new webpack.EnvironmentPlugin(WEBPACK_ENV_VARIABLES),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production')
+      'process.env.NODE_ENV': JSON.stringify('production'),
+      process: {env: {}}
     })
   ],
 

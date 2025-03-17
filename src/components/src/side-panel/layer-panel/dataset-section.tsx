@@ -77,12 +77,11 @@ export function SaveThemeButtonFactory() {
   return SaveThemeButton;
 }
 
-DatasetSectionFactory.deps = [SourceDataCatalogFactory, AddDataButtonFactory, SetThemeButtonFactory, SaveThemeButtonFactory];
+DatasetSectionFactory.deps = [SourceDataCatalogFactory, AddDataButtonFactory, SaveThemeButtonFactory];
 
 function DatasetSectionFactory(
   SourceDataCatalog: ReturnType<typeof SourceDataCatalogFactory>,
   AddDataButton: ReturnType<typeof AddDataButtonFactory>,
-  SetThemeButton: ReturnType<typeof SetThemeButtonFactory>,
   SaveThemeButton: ReturnType<typeof SaveThemeButtonFactory>
 ) {
   const DatasetSection: React.FC<DatasetSectionProps> = props => {
