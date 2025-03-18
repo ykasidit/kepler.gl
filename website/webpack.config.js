@@ -43,7 +43,7 @@ const COMMON_CONFIG = {
   output: {
     path: resolve(__dirname, 'build'),
     filename: 'bundle.js',
-    publicPath: '/maps/'
+    publicPath: '/'
   },
 
   resolve: {
@@ -164,7 +164,7 @@ const addProdConfig = config => {
     output: {
       path: resolve(__dirname, './dist'),
       filename: 'bundle.js',
-      publicPath: '/maps/'
+      publicPath: '/'
     }
   });
 };
