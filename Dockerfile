@@ -6,8 +6,7 @@ WORKDIR /app
 RUN apk add --no-cache curl bash openssl
 RUN apk add --no-cache g++ make libc-dev libxi-dev mesa-dev glew-dev pkgconfig python3 mesa-utils xvfb mesa-gl git
 RUN apk add --no-cache xdg-utils
-RUN git clone --depth=1 https://github.com/keplergl/kepler.gl.git .
-
+COPY . .
 RUN yarn set version 4.4.0
 RUN yarn install
 RUN yarn bootstrap
