@@ -296,6 +296,7 @@ function openURL(url) {
         await ctx.watch();
         await ctx.serve({
           servedir: 'dist',
+          host:"0.0.0.0",
           port,
           fallback: 'dist/index.html',
           onRequest: ({ remoteAddress, method, path, status, timeInMS }) => {
