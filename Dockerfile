@@ -8,4 +8,13 @@ RUN cp .env.template /app/examples/demo-app/.env
 RUN yarn install
 WORKDIR /app/examples/demo-app
 RUN yarn install
-CMD ["yarn", "start"]
+RUN yarn build
+
+
+FROM joseluisq/static-web-server:2-alpine
+COPY --from=builder /app/examples/demo-app/dist/ /public/
+ENV SERVER_CACHE_CONTROL_HEADERS=false
+ENV SERVER_HOST 0.0.0.0
+ENV SERVER_PORT 8080
+ENV SERVER_ROOT=/public
+ENV SERVER_ERROR_PAGE_404=/public/index.html
