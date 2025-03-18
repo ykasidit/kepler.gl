@@ -8,4 +8,4 @@ RUN cp .env.template /app/examples/demo-app/.env
 RUN yarn install
 WORKDIR /app/examples/demo-app
 RUN yarn install
-CMD ["yarn", "start:local"]
+CMD ["yarn", "start"]
