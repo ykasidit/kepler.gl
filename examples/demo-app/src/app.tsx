@@ -18,7 +18,7 @@ import {
 } from '@kepler.gl/ai-assistant';
 import { panelBorderColor, theme } from '@kepler.gl/styles';
 import { useSelector } from 'react-redux';
-import { ParsedConfig } from '@kepler.gl/types';
+import { MinSavedConfigV1, ParsedConfig } from '@kepler.gl/types';
 import { getApplicationConfig } from '@kepler.gl/utils';
 import { SqlPanel } from '@kepler.gl/duckdb';
 import Banner from './components/banner';
@@ -429,12 +429,24 @@ const App = props => {
       if (!processedData) {
         return
       }
-      let config: ParsedConfig | undefined = undefined;
+      let config: MinSavedConfigV1 | undefined = undefined;
       if (configUrl) {
-        config = await (await fetch(configUrl)).json() as ParsedConfig;
-        const layers = config?.visState?.layers ?? []
-        for (const layer of layers) {
-          layer.config.dataId = dataUrl
+        try {
+          config = await (await fetch(configUrl)).json() as MinSavedConfigV1;
+          const layers = config?.config?.visState?.layers ?? [];
+          for (const layer of layers) {
+            layer.id = makeid(6);
+            layer.config.dataId = dataUrl;
+          }
+          const fieldsToShow = config?.config?.visState?.interactionConfig?.tooltip?.fieldsToShow ?? {};
+          const fieldsToShowKeys = Object.keys(fieldsToShow);
+          if(fieldsToShowKeys.length >0) {
+            const oldKey = fieldsToShowKeys[0];
+            fieldsToShow[dataUrl] = fieldsToShow[oldKey];
+            delete fieldsToShow[oldKey];
+          }
+        } catch (e) {
+          console.error(e);
         }
       }
       dispatch(
@@ -453,6 +465,7 @@ const App = props => {
         })
       );
       console.log(parsedData);
+      console.log(config);
     } catch (e) {
       console.error(e)
     }
@@ -725,3 +738,15 @@ const mapStateToProps = state => state;
 const dispatchToProps = dispatch => ({ dispatch });
 
 export default connect(mapStateToProps, dispatchToProps)(App);
+
+function makeid(length) {
+  let result = '';
+  const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    counter += 1;
+  }
+  return result;
+}
