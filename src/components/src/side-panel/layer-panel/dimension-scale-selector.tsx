@@ -46,8 +46,6 @@ function DimensionScaleSelectorFactory(
     const { channelScaleType, domain, field, key, range, scale } = channel;
     const scaleType = scale ? layer.config[scale] : null;
     const layerScaleOptions = layer.getScaleOptions(key).filter(item => item.startsWith("custom"));
-    console.log("dddddddddddddddddd")
-    console.log(layerScaleOptions)
     const scaleOptions = layerScaleOptions.map(op => ({
       label: SCALE_TYPE_NAMES[op] || op,
       value: op
