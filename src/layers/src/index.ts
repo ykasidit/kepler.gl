@@ -77,20 +77,7 @@ export const KeplerGlLayers = {
 
 export type LayerClassesType = typeof LayerClasses;
 export const LayerClasses = {
-  [LAYER_TYPES.point]: PointLayer,
-  [LAYER_TYPES.arc]: ArcLayer,
-  [LAYER_TYPES.line]: LineLayer,
-  [LAYER_TYPES.grid]: GridLayer,
-  [LAYER_TYPES.hexagon]: HexagonLayer,
-  [LAYER_TYPES.geojson]: GeojsonLayer,
-  [LAYER_TYPES.cluster]: ClusterLayer,
-  [LAYER_TYPES.icon]: IconLayer,
-  [LAYER_TYPES.heatmap]: HeatmapLayer,
-  [LAYER_TYPES.hexagonId]: H3Layer,
-  [LAYER_TYPES['3D']]: ScenegraphLayer,
-  [LAYER_TYPES.trip]: TripLayer,
-  [LAYER_TYPES.s2]: S2GeometryLayer,
-  [LAYER_TYPES['vectorTile']]: VectorTileLayer
+  [LAYER_TYPES.point]: PointLayer
 };
 
 export * from './mapbox-utils';

@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
 // Copyright contributors to the kepler.gl project
 
-import {CHANNEL_SCALES, SCALE_TYPE_NAMES} from '@kepler.gl/constants';
-import {FormattedMessage} from '@kepler.gl/localization';
-import {ColorUI, LayerVisConfig} from '@kepler.gl/types';
-import {camelize} from '@kepler.gl/utils';
-import {Layer, VisualChannel} from '@kepler.gl/layers';
-import {default as React, useCallback} from 'react';
-import {Field} from '@kepler.gl/types';
+import { CHANNEL_SCALES, SCALE_TYPE_NAMES } from '@kepler.gl/constants';
+import { FormattedMessage } from '@kepler.gl/localization';
+import { ColorUI, LayerVisConfig } from '@kepler.gl/types';
+import { camelize } from '@kepler.gl/utils';
+import { Layer, VisualChannel } from '@kepler.gl/layers';
+import { default as React, useCallback, useEffect } from 'react';
+import { Field } from '@kepler.gl/types';
 import ItemSelector from '../../common/item-selector/item-selector';
-import {PanelLabel, SidePanelSection} from '../../common/styled-components';
+import { PanelLabel, SidePanelSection } from '../../common/styled-components';
 import ColorScaleSelectorFactory from './color-scale-selector';
-import {KeplerTable} from '@kepler.gl/table';
+import { KeplerTable } from '@kepler.gl/table';
 
-const SizeScaleSelector = ({...dropdownSelectProps}: any) => (
+const SizeScaleSelector = ({ ...dropdownSelectProps }: any) => (
   <ItemSelector {...dropdownSelectProps} />
 );
 
@@ -23,11 +23,11 @@ export type DimensionScaleSelectorProps = {
   label?: string;
   dataset: KeplerTable | undefined;
   onChange: (
-    newConfig: {[key: string]: Field | null | string},
+    newConfig: { [key: string]: Field | null | string },
     key: string,
     newVisConfig?: Partial<LayerVisConfig>
   ) => void;
-  setColorUI: (range: string, newConfig: {[key in keyof ColorUI]: ColorUI[key]}) => void;
+  setColorUI: (range: string, newConfig: { [key in keyof ColorUI]: ColorUI[key] }) => void;
 };
 
 DimensionScaleSelectorFactory.deps = [ColorScaleSelectorFactory];
@@ -43,20 +43,22 @@ function DimensionScaleSelectorFactory(
     onChange,
     setColorUI
   }) => {
-    const {channelScaleType, domain, field, key, range, scale} = channel;
+    const { channelScaleType, domain, field, key, range, scale } = channel;
     const scaleType = scale ? layer.config[scale] : null;
-    const layerScaleOptions = layer.getScaleOptions(key);
+    const layerScaleOptions = layer.getScaleOptions(key).filter(item => item.startsWith("custom"));
+    console.log("dddddddddddddddddd")
+    console.log(layerScaleOptions)
     const scaleOptions = layerScaleOptions.map(op => ({
       label: SCALE_TYPE_NAMES[op] || op,
       value: op
     }));
-    const disabled = scaleOptions.length < 2;
+    const disabled = false;
     const isColorScale =
       channelScaleType === CHANNEL_SCALES.color ||
       (layer.config.aggregatedBins && channelScaleType === CHANNEL_SCALES.colorAggr);
 
     const onSelect = useCallback(
-      (val, newRange) => onChange({[scale]: val}, key, newRange ? {[range]: newRange} : undefined),
+      (val, newRange) => onChange({ [scale]: val }, key, newRange ? { [range]: newRange } : undefined),
       [onChange, range, scale, key]
     );
     const _setColorUI = useCallback(newConfig => setColorUI(range, newConfig), [range, setColorUI]);

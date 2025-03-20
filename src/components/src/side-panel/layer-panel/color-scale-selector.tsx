@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 // Copyright contributors to the kepler.gl project
 
-import React, {useCallback, useMemo, useState} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import {ALL_FIELD_TYPES, SCALE_TYPES} from '@kepler.gl/constants';
-import {AggregatedBin, Layer, VisualChannelDomain} from '@kepler.gl/layers';
-import {KeplerTable} from '@kepler.gl/table';
-import {ColorRange, ColorUI, Field} from '@kepler.gl/types';
+import { ALL_FIELD_TYPES, SCALE_TYPES } from '@kepler.gl/constants';
+import { AggregatedBin, Layer, VisualChannelDomain } from '@kepler.gl/layers';
+import { KeplerTable } from '@kepler.gl/table';
+import { ColorRange, ColorUI, Field } from '@kepler.gl/types';
 import {
   getLayerColorScale,
   getLegendOfScale,
@@ -18,8 +18,8 @@ import {
   hasColorMap
 } from '@kepler.gl/utils';
 
-import ColorBreaksPanelFactory, {ColorBreaksPanelProps} from './color-breaks-panel';
-import {SetColorUIFunc} from './custom-palette';
+import ColorBreaksPanelFactory, { ColorBreaksPanelProps } from './color-breaks-panel';
+import { SetColorUIFunc } from './custom-palette';
 import DropdownSelect from '../../common/item-selector/dropdown-select';
 import Accessor from '../../common/item-selector/accessor';
 import DropdownList from '../../common/item-selector/dropdown-list';
@@ -63,14 +63,14 @@ const DropdownPropContext = React.createContext({});
 const POPPER_OPTIONS = {
   modifiers: [
     // zero offsets since they are already added in VerticalToolbar
-    {name: 'offset', options: {offset: [0, 0]}}
+    { name: 'offset', options: { offset: [0, 0] } }
   ]
 };
 
-const DropdownBottom = styled.div<{light?: boolean}>`
+const DropdownBottom = styled.div<{ light?: boolean }>`
   border-top: 1px solid
     ${props =>
-      props.light ? props.theme.dropdownListBorderTopLT : props.theme.dropdownListBorderTop};
+    props.light ? props.theme.dropdownListBorderTopLT : props.theme.dropdownListBorderTop};
 `;
 
 const StyledScaleSelectDropdown = styled.div`
@@ -161,10 +161,10 @@ function ColorScaleSelectorFactory(
     const colorBreaks = useMemo(() => {
       return colorScale
         ? getLegendOfScale({
-            scale: colorScale.byZoom && domain ? colorScale(domain?.length - 1) : colorScale,
-            scaleType,
-            fieldType: field?.type ?? ALL_FIELD_TYPES.real
-          })
+          scale: colorScale.byZoom && domain ? colorScale(domain?.length - 1) : colorScale,
+          scaleType,
+          fieldType: field?.type ?? ALL_FIELD_TYPES.real
+        })
         : null;
     }, [colorScale, scaleType, field?.type, domain]);
 
@@ -191,7 +191,7 @@ function ColorScaleSelectorFactory(
     }, [aggregatedBins, columnStats, dataset, fieldValueAccessor]);
 
     const histogramDomain = useMemo(() => {
-      return getHistogramDomain({aggregatedBins, columnStats, dataset, fieldValueAccessor});
+      return getHistogramDomain({ aggregatedBins, columnStats, dataset, fieldValueAccessor });
     }, [dataset, fieldValueAccessor, aggregatedBins, columnStats]);
 
     const ordinalDomain = useMemo(() => {
@@ -220,6 +220,8 @@ function ColorScaleSelectorFactory(
 
     const onSelectScale = useCallback(
       val => {
+        console.log("qqqqqqqqq")
+        console.log(val)
         // highlight selected option
         if (!val || isEditingColorBreaks) return;
         const selectedScale = getOptionValue(val);
@@ -242,7 +244,7 @@ function ColorScaleSelectorFactory(
           // not custom
           // remove colorMap
           // eslint-disable-next-line no-unused-vars
-          const {colorMap: _, ...newRange} = range;
+          const { colorMap: _, ...newRange } = range;
           onSelect(selectedScale, newRange);
         } else {
           onSelect(selectedScale);
@@ -263,6 +265,16 @@ function ColorScaleSelectorFactory(
     const isCustomBreaks =
       scaleType === SCALE_TYPES.custom || scaleType === SCALE_TYPES.customOrdinal;
 
+    const options = dropdownSelectProps.options
+    useEffect(() => {
+      console.log(options)
+      console.log(scaleType)
+      if (!scaleType.startsWith("custom")) {
+        if (options[0]) {
+          onSelectScale(options[0])
+        }
+      }
+    }, [scaleType, options, onSelectScale]);
     return (
       <DropdownPropContext.Provider
         value={{

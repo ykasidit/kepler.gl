@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright contributors to the kepler.gl project
 
-import React, {useMemo} from 'react';
-import styled, {withTheme} from 'styled-components';
+import React, { useEffect, useMemo } from 'react';
+import styled, { withTheme } from 'styled-components';
 
-import LayerTypeDropdownListFactory, {LayerTypeOption} from './layer-type-dropdown-list';
+import LayerTypeDropdownListFactory, { LayerTypeOption } from './layer-type-dropdown-list';
 import LayerTypeListItemFactory from './layer-type-list-item';
 import ItemSelector from '../../common/item-selector/item-selector';
 
-import {SidePanelSection} from '../../common/styled-components';
+import { SidePanelSection } from '../../common/styled-components';
 
 type Option = {
   id: string;
@@ -59,6 +59,12 @@ function LayerTypeSelectorFactory(
       () => options.find(op => op.id === selected),
       [options, selected]
     );
+
+    useEffect(() => {
+      if (!selectedItems) {
+        onSelect(options[0].id)
+      }
+    }, [selectedItems, options])
 
     return (
       <SidePanelSection>
