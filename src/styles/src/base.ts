@@ -188,7 +188,7 @@ export const dropdownListBgdLT = '#FFFFFF';
 export const dropdownListBorderTop = '#242730';
 export const dropdownListBorderTopLT = '#D3D8E0';
 export const dropdownListLineHeight = 20;
-export const dropdownWrapperZ = 100;
+export const dropdownWrapperZ = 1000;
 export const dropdownWapperMargin = 4;
 export const dndOverBackgroundColor = 'rgba(128, 128, 128, 0.2)';
 
