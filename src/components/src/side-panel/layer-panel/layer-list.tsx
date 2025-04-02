@@ -48,6 +48,9 @@ const SortableStyledItem = styled.div<SortableStyledItemProps>`
   z-index: ${props => props.theme.dropdownWrapperZ + 1};
   transition: ${props => props.transition};
   transform: ${props => props.transform};
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: ${props => props.theme.panelBackgroundHover} transparent;
   &.sorting {
     opacity: 0.3;
     pointer-events: none;
